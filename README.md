@@ -1,59 +1,28 @@
-# TestNg21NewSsr
+# Prerendering of concrete server route doesn't work, when using wildcard client route
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.1.
+## What this repo contains
 
-## Development server
+This is a minimal fresh Angular 21 app with minimal problem reproduction steps:
 
-To start a local development server, run:
+- Created with `ng new ... --ssr` with server routing
+- Added one client route in `app.config.ts`:
+  - `'**'`
+- Added 2 server routes in `app.config.server.ts`:
+  - `'some-concrete-page'` - `Prerender` mode
+  - `'**'` - `Server` mode
 
-```bash
-ng serve
+### Motivation for this setup:
+
+Client routes consist only of CMS-driven `'**'` wildcard route - i.e. the URL is read, then CMS data loaded dynamically for that URL, and components are rendered dynamically afterwards.
+
+But we'd like to Prerender some concrete route(s). We don't want to define those routes explicitly in the Angular client router.
+
+btw. Ideally we'd like to source the list of the URLs to prerender from an external file (like `prerender.txt`), but not edit the Angular client routing configuration in `.ts` file. But with `outputMode: server` those routes for Prerendering need to be defined in `serverRoutes`.
+
+## Problem
+
+When running `ng build` it throws an error:
+
 ```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+✘ [ERROR] The 'some-concrete-page' server route does not match any routes defined in the Angular routing configuration (typically provided as a part of the 'provideRouter' call). Please make sure that the mentioned server route is present in the Angular routing configuration.
 ```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
