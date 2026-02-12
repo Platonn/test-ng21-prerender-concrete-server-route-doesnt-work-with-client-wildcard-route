@@ -6,7 +6,7 @@ This is a minimal fresh Angular 21 app with minimal problem reproduction steps:
 
 - Created with `ng new ... --ssr` with server routing
 - Added one client route in `app.config.ts`:
-  - `'**'`
+  - `'**'` - empty `CmsDrivenComponent`
 - Added 2 server routes in `app.config.server.ts`:
   - `'some-concrete-page'` - `Prerender` mode
   - `'**'` - `Server` mode
@@ -23,6 +23,4 @@ btw. Ideally we'd like to source the list of the URLs to prerender from an exter
 
 When running `ng build` it throws an error:
 
-```
-✘ [ERROR] The 'some-concrete-page' server route does not match any routes defined in the Angular routing configuration (typically provided as a part of the 'provideRouter' call). Please make sure that the mentioned server route is present in the Angular routing configuration.
-```
+`✘ [ERROR] The 'some-concrete-page' server route does not match any routes defined in the Angular routing configuration (typically provided as a part of the 'provideRouter' call). Please make sure that the mentioned server route is present in the Angular routing configuration.`
