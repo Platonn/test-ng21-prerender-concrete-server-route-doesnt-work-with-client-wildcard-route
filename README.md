@@ -17,7 +17,7 @@ Client routes consist only of CMS-driven `'**'` wildcard route - i.e. the URL is
 
 But we'd like to Prerender some concrete route(s). We don't want to define those routes explicitly in the Angular client router.
 
-btw. Ideally we'd like to source the list of the URLs to prerender from an external file (like `prerender.txt`), but not edit the Angular client routing configuration in `.ts` file. But if it has to be defined in `serverRoutes`
+btw. Ideally we'd like to source the list of the URLs to prerender from an external file (like `prerender.txt`), but not edit the Angular client routing configuration in `.ts` file. But with `outputMode: server` those routes for Prerendering need to be defined in `serverRoutes`.
 
 ## Problem
 
